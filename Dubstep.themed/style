@@ -1,0 +1,35 @@
+{
+  LargeDisplayFont = "SF Pro Display,Inter, Trebuchet MS,sans serif:pixelsize=24";
+  HighlightColor = "#ffffff";
+  MenuTextExtendSpace = 120;
+  FTitleColor = "#ffffff";
+  MenuTitleExtendSpace = 200;
+  MenuTextFont = "SF Pro,Inter, Trebuchet MS,sans serif:pixelsize=12";
+  WorkspaceBack = (tpixmap, "gnustep_wallpaper-inversed-2560x1600.png", gray20);
+  UTitleBack = (dgradient, "#505258", "#27292c");
+  NormalCursor = (builtin, left_ptr);
+  IconTitleFont = "SF Pro Display,Arial,sans serif:pixelsize=9";
+  PTitleBack = (dgradient, "#515055", "#202224");
+  WindowTitleFont = "SF Pro Display,Inter, Trebuchet MS,sans serif:bold:pixelsize=12";
+  UTitleColor = "#000000";
+  MenuDisabledColor = "#666666";
+  ClipTitleFont = "SF Pro,Inter:bold:pixelsize=10";
+  MenuStyle = flat;
+  MenuTextBack = (hgradient, "#393b3f", "#393b3f");
+  PTitleColor = "#202224";
+  IconBack = (dgradient, "rgb:a6/a6/b6", "rgb:51/55/61");
+  MenuTitleBack = (hgradient, "#37393d", "#2e3034");
+  DisplayFont = "SF Pro Display,Inter, Trebuchet MS,sans serif:pixelsize=12";
+  FTitleBack = (dgradient, "#403d45", "#2c2e30");
+  WindowTitleExtendSpace = 0;
+  TitleJustify = left;
+  CClipTitleColor = "rgb:61/61/61";
+  ResizebarBack = (solid, "#303235");
+  MenuTextColor = "#ffffff";
+  ClipTitleColor = black;
+  IconTitleBack = "rgb:50/5a/5e";
+  HighlightTextColor = "#000000";
+  IconTitleColor = white;
+  MenuTitleFont = "SF Pro,Inter:Bold:pixelsize=16";
+  MenuTitleColor = "#ff0000";
+}
