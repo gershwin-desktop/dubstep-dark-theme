@@ -1,6 +1,7 @@
 {
     GSThemeAuthors = (
-	"Bertrand Dekoninck"
+	"Bertrand Dekoninck",
+	"Damian Szidiropulosz"
     );
     GSThemeDetails = "A dark theme with a blue accent and the Rik icons.";
     GSThemeDomain = {
