@@ -15,29 +15,15 @@
     CGFloat blue = rgba[2].floatValue / 255;
     CGFloat alpha = rgba[3].floatValue;
     return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
-    // return [NSColor colorWithCalibratedRed:1.0 green:0.0 blue:0.0 alpha:1.0];
 }
-
-/*
-- (NSColorList*)colors
-{
-    return [self systemColors];
-}
-*/
 
 - (NSColor *)defaultBackgroundColor {
-  // CGFloat level = 0.1;
-  // return [NSColor colorWithCalibratedRed:level green:level blue:level alpha:1.0];
-  // NSArray *rgba = @[@41.0,@39.0,@53.0,@1.0]; // My Mac
   NSArray *rgba = @[@51.0,@51.0,@51.0,@1.0]; // Mockups default theme
-  // NSArray *rgba = @[@255.0,@255.0,@255.0,@1.0]; // Mockups default theme
   return [self rgbaToColor:rgba];
 }
 
 - (NSColor *)statusBarBackgroundColor {
-  return [NSColor blackColor];
-  // return [NSColor colorWithCalibratedRed:0.2 green:0.2 blue:0.25 alpha:1.0];
-  // return [NSColor colorWithCalibratedRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+  return [NSColor blackColor]; 
 }
 
 - (CGFloat)menuPadding
@@ -51,25 +37,9 @@
   return false;
 }
 
-/*- (BOOL)toolbarIsOpaque {
-  return NO;
-}*/
-
-/*- (CGFloat)menuBarHeight {
-    return 32.0;
-}
-
-- (CGFloat)menuSeparatorHeight {
-    return 0.0;
-}*/
-
 - (CGFloat)menuSeparatorInset {
   return 0.0;
 }
-
-/*- (CGFloat)menuItemHeight {
-    return 28.0;
-}*/
 
 - (NSColor *)menuItemBackgroundColor {
   return [self statusBarBackgroundColor];
@@ -87,29 +57,6 @@
 - (NSColor *)menuBorderColorForEdge {
   return [NSColor blackColor];
 }
-
-/*- (NSColor *)menuBorderColor {
-  NSColor *color = [NSColor colorWithCalibratedRed:0.212
-                                             green:0.184
-                                              blue:0.176
-                                             alpha:1.0];
-  return color;
-*/
-
-/*
-- (NSColor *) menuBackgroundColor
-{
-  //NSUserDefaults *theme_defaults = [NSUserDefaults standardUserDefaults];
-  float transparency = [theme_defaults floatForKey:@"RikMenuBarTransparency"];
-  NSColor *color = [NSColor colorWithCalibratedRed: 0.992 green: 0.992 blue:
-0.992 alpha: transparency]; return color;
-}
-
-- (NSColor *) menuItemBackgroundColor
-{
-  NSColor *color = [NSColor colorWithCalibratedRed: 0.992 green: 0.992 blue:
-0.992 alpha: 0.95]; return color;
-}*/
 
 - (CGFloat)menuSubmenuHorizontalOverlap {
   return 3;
@@ -261,11 +208,6 @@
   window = [view window];
   [window setBackgroundColor:color];
   [window setTitle:@"Gershwin"];
-  // [window update];
-
-
-  // id<GSWindowDecorator> *decorator = [self windowDecorator];
-  // [decorator setBackgroundColor: color];
 }
 
 - (NSButton *) standardWindowButton: (NSWindowButton)button
@@ -349,162 +291,6 @@
 }
 
 static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
-/*
-- (void) drawTitleBarRect: (NSRect)titleBarRect 
-             forStyleMask: (unsigned int)styleMask
-                    state: (int)inputState 
-                 andTitle: (NSString*)title
-{
-  static const NSRectEdge edges[4] = {NSMinXEdge, NSMaxYEdge,
-				    NSMaxXEdge, NSMinYEdge};
-  CGFloat grays[3][4] =
-    {{NSLightGray, NSLightGray, NSDarkGray, NSDarkGray},
-    {NSWhite, NSWhite, NSDarkGray, NSDarkGray},
-    {NSLightGray, NSLightGray, NSBlack, NSBlack}};
-  NSRect workRect;
-  GSDrawTiles *tiles = nil;
-
-  if (!titleTextAttributes[0])
-    {
-      NSMutableParagraphStyle *p;
-      NSColor *keyColor, *normalColor, *mainColor;
-
-      p = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-      [p setLineBreakMode: NSLineBreakByClipping];
-
-      // FIXME: refine color names based on style mask
-      // (HUD or textured or regular window)
-
-      keyColor = [self colorNamed: @"keyWindowFrameTextColor"
-                            state: GSThemeNormalState];
-      if (nil == keyColor)
-        {
-          keyColor = [NSColor windowFrameTextColor];
-        }
-
-      normalColor = [self colorNamed: @"normalWindowFrameTextColor"
-                               state: GSThemeNormalState];
-      if (nil == normalColor)
-        {
-          normalColor = [NSColor blackColor];
-        }
- 
-      mainColor = [self colorNamed: @"mainWindowFrameTextColor"
-                             state: GSThemeNormalState];
-      if (nil == mainColor)
-        {
-          mainColor = [NSColor windowFrameTextColor];
-        }
- 
-      titleTextAttributes[0] = [[NSMutableDictionary alloc]
-	initWithObjectsAndKeys:
-	  [NSFont titleBarFontOfSize: 0], NSFontAttributeName,
-	  keyColor, NSForegroundColorAttributeName,
-	  p, NSParagraphStyleAttributeName,
-	  nil];
-
-      titleTextAttributes[1] = [[NSMutableDictionary alloc]
-	initWithObjectsAndKeys:
-	  [NSFont titleBarFontOfSize: 0], NSFontAttributeName,
-	  normalColor, NSForegroundColorAttributeName,
-	  p, NSParagraphStyleAttributeName,
-	  nil];
-
-      titleTextAttributes[2] = [[NSMutableDictionary alloc]
-	initWithObjectsAndKeys:
-	  [NSFont titleBarFontOfSize: 0], NSFontAttributeName,
-	  mainColor, NSForegroundColorAttributeName,
-	  p, NSParagraphStyleAttributeName,
-	  nil];
-
-      RELEASE(p);
-    }
-
-  tiles = [self tilesNamed: @"GSWindowTitleBar" state: GSThemeNormalState];
-  if (tiles == nil)
-    {
-      
-      // Draw the black border towards the rest of the window. (The outer black
-      // border is drawn in -drawRect: since it might be drawn even if we don't have
-      // a title bar.
-      
-      NSColor *borderColor = [self colorNamed: @"windowBorderColor"
-                                        state: GSThemeNormalState];
-      if (nil == borderColor)
-        {
-          borderColor = [NSColor blackColor];
-        }
-      [borderColor set];
- 
-      PSmoveto(0, NSMinY(titleBarRect) + 0.5);
-      PSrlineto(titleBarRect.size.width, 0);
-      PSstroke();
-
-      
-      // Draw the button-like border.
-      
-      workRect = titleBarRect;
-      workRect.origin.x += 1;
-      workRect.origin.y += 1;
-      workRect.size.width -= 2;
-      workRect.size.height -= 2;
-
-      workRect = NSDrawTiledRects(workRect, workRect, edges, grays[inputState], 4);
-     
-      
-      // Draw the background.
-      
-      switch (inputState) 
-	{
-	default:
-	case 0:
-	  [[NSColor windowFrameColor] set];
-	  break;
-	case 1:
-	  [[NSColor lightGrayColor] set];
-	  break;
-	case 2:
-	  [[NSColor darkGrayColor] set];
-	  break;
-	}
-      NSRectFill(workRect);
-    }
-  else
-    {
-      [self fillRect: titleBarRect
-          withTiles: tiles
-         background: [NSColor windowFrameColor]];
-      workRect = titleBarRect;
-    }
-  // Draw the title.
-  if (styleMask & NSTitledWindowMask)
-    {
-      NSSize titleSize;
-    
-      if (styleMask & NSMiniaturizableWindowMask)
-	{
-	  workRect.origin.x += 17;
-	  workRect.size.width -= 17;
-	}
-      if (styleMask & NSClosableWindowMask)
-	{
-	  workRect.size.width -= 17;
-	}
-  
-      titleSize = [title sizeWithAttributes: titleTextAttributes[inputState]];
-      if (titleSize.width <= workRect.size.width)
-	workRect.origin.x = NSMidX(workRect) - titleSize.width / 2;
-      workRect.origin.y = NSMidY(workRect) - titleSize.height / 2;
-      workRect.size.height = titleSize.height;
-      [title drawInRect: workRect
-	 withAttributes: titleTextAttributes[inputState]];
-    }
-}
-*/
-
-
-
-
 // HINT: Check out line 1803 on the following source page...
 // https://github.com/gnustep/libs-gui/blob/master/Source/GSThemeDrawing.m
 - (void)drawTitleBarRect:(NSRect)titleBarRect
@@ -518,8 +304,6 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
   CGFloat grays[3][4] = {{NSLightGray, NSLightGray, NSDarkGray, NSDarkGray},
                          {NSWhite, NSWhite, NSDarkGray, NSDarkGray},
                          {NSLightGray, NSLightGray, NSBlack, NSBlack}};
-  // NSRect workRect;
-  // GSDrawTiles *tiles = nil;
 
   if (!titleTextAttributes[0]) {
     NSMutableParagraphStyle *p;
