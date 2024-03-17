@@ -4,12 +4,14 @@
 
 @implementation Dubstep
 
-- (void)initWithBundle {
+- (void)initWithBundle
+{
   // Additional setup code for your theme, if needed 
 }
 
 // Custom Props
-- (NSColor *)rgbaToColor: (NSArray<NSNumber *> *)rgba {
+- (NSColor *)rgbaToColor: (NSArray<NSNumber *> *)rgba
+{
     CGFloat red = rgba[0].floatValue / 255;
     CGFloat green = rgba[1].floatValue / 255;
     CGFloat blue = rgba[2].floatValue / 255;
@@ -17,12 +19,14 @@
     return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
 }
 
-- (NSColor *)defaultBackgroundColor {
+- (NSColor *)defaultBackgroundColor
+{
   NSArray *rgba = @[@51.0,@51.0,@51.0,@1.0]; // Mockups default theme
   return [self rgbaToColor:rgba];
 }
 
-- (NSColor *)statusBarBackgroundColor {
+- (NSColor *)statusBarBackgroundColor\
+{
   return [NSColor blackColor]; 
 }
 
@@ -33,58 +37,71 @@
 // END Custom Props
 
 // Override the getter for menuShouldShowIcon
-- (BOOL)menuShouldShowIcon {
+- (BOOL)menuShouldShowIcon
+{
   return false;
 }
 
-- (CGFloat)menuSeparatorInset {
+- (CGFloat)menuSeparatorInset
+{
   return 0.0;
 }
 
-- (NSColor *)menuItemBackgroundColor {
+- (NSColor *)menuItemBackgroundColor
+{
   return [self statusBarBackgroundColor];
 }
 
-- (NSColor *)menuBackgroundColor {
+- (NSColor *)menuBackgroundColor
+{
   return [self statusBarBackgroundColor];
 }
 
-- (NSColor*)menuBorderColor {
+- (NSColor*)menuBorderColor
+{
   NSArray *rgba = @[@68.0,@68.0,@68.0,@1.0];
   return [self rgbaToColor:rgba];
 }
 
-- (NSColor *)menuBorderColorForEdge {
+- (NSColor *)menuBorderColorForEdge
+{
   return [NSColor blackColor];
 }
 
-- (CGFloat)menuSubmenuHorizontalOverlap {
+- (CGFloat)menuSubmenuHorizontalOverlap
+{
   return 3;
 }
 
-- (float)titlebarHeight {
+- (float)titlebarHeight
+{
   return 40.0f;
 }
 
 
-- (float)titlebarPaddingLeft {
+- (float)titlebarPaddingLeft
+{
   return 16.0f;
 }
 
-- (float)titlebarPaddingRight {
+- (float)titlebarPaddingRight
+{
   return 16.0f;
 }
 
-- (float)titlebarPaddingTop {
+- (float)titlebarPaddingTop
+{
   return 4.0f;
 }
 
 
-- (float)titlebarButtonSize {
+- (float)titlebarButtonSize
+{
   return 12.0f;
 }
 
-- (float)windowButtonPadding {
+- (float)windowButtonPadding
+{
   return 8.0f;
 }
 
@@ -94,18 +111,22 @@
 }
 
 
-- (CGFloat)menuSubmenuVerticalOverlap {
+- (CGFloat)menuSubmenuVerticalOverlap
+{
   return 0;
 }
 
-- (CGFloat)menuBarHeight {
+- (CGFloat)menuBarHeight
+{
   return 32;
 }
 
-- (CGFloat)menuItemHeight {
+- (CGFloat)menuItemHeight
+{
   return 28;
 }
-- (CGFloat)menuSeparatorHeight {
+- (CGFloat)menuSeparatorHeight
+{
   return 1;
 }
 
