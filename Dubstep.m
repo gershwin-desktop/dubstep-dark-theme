@@ -213,23 +213,23 @@
 }
 
 
-- (void)drawWindowBackground:(NSRect)frame
+/*- (void)drawWindowBackground:(NSRect)frame
                         view:(NSView *)view;
 {
   // Color the NSWindow
   frame.size.width += 200;
   NSColor *color; 
-  color = [self defaultBackgroundColor];
-  // color = [NSColor redColor];
-  [color set];
-  NSRectFill(frame);
+  // color = [self defaultBackgroundColor];
+  color = [NSColor redColor];
+  // [color set];
+  // NSRectFill(frame);
   
   // Color the Window Decorator
   NSWindow *window;
   window = [view window];
   [window setBackgroundColor:color];
   [window setTitle:@"Gershwin"];
-}
+}*/
 
 - (NSButton *) standardWindowButton: (NSWindowButton)button
 		       forStyleMask: (NSUInteger) mask
