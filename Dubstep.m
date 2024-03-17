@@ -1,5 +1,6 @@
 #import "GNUstepGUI/GSWindowDecorationView.h"
 #import "Dubstep.h"
+#import "Dubstep+Button.h"
 #import <AppKit/AppKit.h>#
 
 @implementation Dubstep
@@ -125,9 +126,15 @@
 {
   return 28;
 }
+
 - (CGFloat)menuSeparatorHeight
 {
   return 1;
+}
+
+- (void)drawRoundedWindow:(NSRect)rect radius:(CGFloat)radius {
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:radius yRadius:radius];
+    [path fill];
 }
 
 - (void)drawWindowBorder:(NSRect)rect
@@ -138,13 +145,14 @@
 {
   // Color the window frame 
   NSColor *color; 
-  color = [self defaultBackgroundColor];
-  // color = [NSColor whiteColor];
-  [color set];
-  NSRectFill(rect);
+  color = [self defaultBackgroundColor]; 
+  // [color set];
+  // NSRectFill(rect);
+  [color setFill];
+  [self drawRoundedWindow:rect radius:12.0];
 
-  //frame.size.width = rect.size.width - 2;
-  //frame.origin.x = rect.origin.x + 1;
+  rect.size.width = rect.size.width + 16;
+  rect.origin.x += 8; 
 
   /*
   if (styleMask & (NSTitledWindowMask | NSClosableWindowMask 
