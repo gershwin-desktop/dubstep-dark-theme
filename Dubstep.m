@@ -108,7 +108,7 @@
 
 - (float) resizebarHeight
 {
-  return 8.0f;
+  return 12.0f;
 }
 
 
@@ -149,7 +149,7 @@
   // [color set];
   // NSRectFill(rect);
   [color setFill];
-  [self drawRoundedWindow:rect radius:12.0];
+  [self drawRoundedWindow:rect radius:14.0];
 
   rect.size.width = rect.size.width + 16;
   rect.origin.x += 8; 
@@ -220,24 +220,26 @@
   */
 }
 
-
-/*- (void)drawWindowBackground:(NSRect)frame
+/*
+- (void)drawWindowBackground:(NSRect)frame
                         view:(NSView *)view;
 {
   // Color the NSWindow
   frame.size.width += 200;
   NSColor *color; 
-  // color = [self defaultBackgroundColor];
-  color = [NSColor redColor];
-  // [color set];
-  // NSRectFill(frame);
+  color = [self defaultBackgroundColor];
+  // color = [NSColor redColor];
+  [color set];
+  NSRectFill(frame);
   
   // Color the Window Decorator
   NSWindow *window;
   window = [view window];
   [window setBackgroundColor:color];
   [window setTitle:@"Gershwin"];
-}*/
+  [window setHasShadow:YES];
+}
+*/
 
 - (NSButton *) standardWindowButton: (NSWindowButton)button
 		       forStyleMask: (NSUInteger) mask
@@ -432,16 +434,18 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
   NSMenuView *menuView = (NSMenuView *)view;
   NSRect bounds = [view bounds];
 
-  NSRect r = NSIntersectionRect(bounds, rect);
+  NSRect r = NSIntersectionRect(bounds, rect); 
   NSRectFillUsingOperation(bounds, NSCompositeClear);
   NSBezierPath *menuPath;
   NSColor *borderColor = [self menuBorderColor];
   [borderColor setStroke];
 
   // EXPERIMENTAL PADDING
-  // CGFloat padding = [self menuPadding];
+  CGFloat padding = [self menuPadding];
 
   if (horizontal == YES) {
+    // This is for the horizontal menu bar up top
+
     // Compensate for padding in the x-axis
     // bounds.origin.x += padding;
     // bounds.size.width -= 2 * padding;
@@ -464,8 +468,8 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
                                                xRadius:radius
                                                yRadius:radius];
 
-    [[self menuBackgroundColor] setFill];
-    [menuPath fill];
+    //[[self menuBackgroundColor] setFill];
+    //[menuPath fill];
 
     NSBezierPath *strokemenuPath =
         [NSBezierPath bezierPathWithRoundedRect:bounds
@@ -498,7 +502,7 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
 
   // NSRectEdge sides[4] = {NSMinXEdge, NSMaxYEdge, NSMaxXEdge, NSMinYEdge};
 
-  [[self menuBackgroundColor] setFill];
+  /*[[self menuBackgroundColor] setFill];
 
   NSRect r = NSIntersectionRect(bounds, dirtyRect);
   NSRectFillUsingOperation(r, NSCompositeClear);
@@ -507,7 +511,8 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
   // NSColor *borderColor = [self menuBorderColor];
   //[borderColor setStroke];
   [roundedRectanglePath fill];
-  [roundedRectanglePath stroke];
+  [roundedRectanglePath stroke]; 
+  */
 }
 
 
@@ -567,56 +572,5 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
   NSRectFillUsingOperation(cellFrame, NSCompositeClear);
   NSRectFill(cellFrame);
 }
-
-
-- (NSColorList *)colorshit
-{
-	NSColorList *colorList = [[NSColorList alloc] initWithname:@"DUBstep"];
-
-    [colorList setColor:[NSColor darkGrayColor] forKey: @"alternateSelectedControlColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"alternateSelectedControlTextColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"controlBackgroundColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"controlColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"controlDarkShadowColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"controlHighlightColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"controlLightHighlightColor"];
-    [colorList setColor:[NSColor darkGrayColor] forKey: @"controlShadowColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"controlTextColor"];
-    [colorList setColor:[NSColor darkGrayColor] forKey: @"disabledControlTextColor"];
-    [colorList setColor:[NSColor grayColor] forKey: @"gridColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"headerColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"headerTextColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"highlightColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"keyboardFocusIndicatorColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"knobColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"labelColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"quaternaryLabelColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"scrollBarColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"secondaryLabelColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"secondarySelectedControlColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"selectedControlColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"selectedControlTextColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"selectedKnobColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"selectedMenuItemColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"selectedMenuItemTextColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"selectedTextBackgroundColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"selectedTextColor"];
-    [colorList setColor:[NSColor blackColor] forKey: @"shadowColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"tertiaryLabelColor"];
-    [colorList setColor:[NSColor lightGrayColor] forKey: @"textBackgroundColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"textColor"];
-    [colorList setColor:[NSColor blackColor] forKey: @"windowBackgroundColor"];
-    [colorList setColor:[NSColor blackColor] forKey: @"windowFrameColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"windowFrameTextColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"keyWindowFrameTextColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"mainWindowFrameTextColor"];
-    [colorList setColor:[NSColor blackColor] forKey: @"rowBackgroundColor"];
-    [colorList setColor:[NSColor darkGrayColor] forKey: @"alternateRowBackgroundColor"];
-    [colorList setColor:[NSColor yellowdColor] forKey: @"toolTipColor"];
-    [colorList setColor:[NSColor whiteColor] forKey: @"toolTipTextColor"];
-
-	return colorList;
-}
-
 
 @end
