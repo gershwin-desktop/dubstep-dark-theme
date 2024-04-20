@@ -10,6 +10,7 @@ $(BUNDLE_NAME)_PRINCIPAL_CLASS = Dubstep
 
 $(BUNDLE_NAME)_OBJC_FILES = \
 		Dubstep.m \
+		DubstepWindowDecorationView.m \
 		Dubstep+Button.m \
 		DubstepScrollerKnobSlotCell.m \
 		DubstepScrollerKnobCell.m \

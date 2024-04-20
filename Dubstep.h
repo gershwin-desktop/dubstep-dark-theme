@@ -6,6 +6,8 @@
 {  
   NSUserDefaults *defaults;
 }
+- (NSRect)zoomButtonFrameForBounds:(NSRect)rect;
+
 - (void) drawPathButton: (NSBezierPath*) path
                      in: (NSCell*)cell
                   state: (GSThemeControlState) state;
