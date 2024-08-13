@@ -5,12 +5,13 @@
 
 @implementation Dubstep
 
+// Initialize with bundle. Add setup code for theme if needed.
 - (void)initWithBundle
 {
   // Additional setup code for your theme, if needed 
 }
 
-// Custom Props
+// Converts RGBA values to NSColor.
 - (NSColor *)rgbaToColor: (NSArray<NSNumber *> *)rgba
 {
     CGFloat red = rgba[0].floatValue / 255;
@@ -20,39 +21,45 @@
     return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
 }
 
+// Provides the default background color for the theme.
 - (NSColor *)defaultBackgroundColor
 {
   NSArray *rgba = @[@51.0,@51.0,@51.0,@1.0]; // Mockups default theme
   return [self rgbaToColor:rgba];
 }
 
+// Returns the background color for the status bar.
 - (NSColor *)statusBarBackgroundColor\
 {
   return [NSColor blackColor]; 
 }
 
+// Returns padding value for menu items.
 - (CGFloat)menuPadding
 {
    return 16.0;
 }
 // END Custom Props
 
-// Override the getter for menuShouldShowIcon
+// Determines whether menu icons should be shown.
 - (BOOL)menuShouldShowIcon
 {
   return false;
 }
 
+// Returns the inset for menu separators.
 - (CGFloat)menuSeparatorInset
 {
   return 0.0;
 }
 
+// Returns the background color for menu items.
 - (NSColor *)menuItemBackgroundColor
 {
   return [self statusBarBackgroundColor];
 }
 
+// Returns the border color for the menu.
 - (NSColor *)menuBackgroundColor
 {
   return [self statusBarBackgroundColor];
@@ -64,79 +71,91 @@
   return [self rgbaToColor:rgba];
 }
 
+// Returns the border color for the edge of the menu.
 - (NSColor *)menuBorderColorForEdge
 {
   return [NSColor blackColor];
 }
 
+// Returns the horizontal overlap for submenus.
 - (CGFloat)menuSubmenuHorizontalOverlap
 {
   return 3;
 }
 
+// Returns the height of the title bar.
 - (float)titlebarHeight
 {
   return 40.0f;
 }
 
-
+// Returns the left padding of the title bar.
 - (float)titlebarPaddingLeft
 {
   return 16.0f;
 }
 
+// Returns the right padding of the title bar.
 - (float)titlebarPaddingRight
 {
   return 16.0f;
 }
 
+// Returns the top padding of the title bar.
 - (float)titlebarPaddingTop
 {
   return 4.0f;
 }
 
-
+// Returns the size of the title bar buttons.
 - (float)titlebarButtonSize
 {
   return 12.0f;
 }
 
+// Returns the padding for window buttons.
 - (float)windowButtonPadding
 {
   return 8.0f;
 }
 
+// Returns the height of the resize bar.
 - (float) resizebarHeight
 {
   return 12.0f;
 }
 
-
+// Returns the vertical overlap for submenus.
 - (CGFloat)menuSubmenuVerticalOverlap
 {
   return 0;
 }
 
+// Returns the height of the menu bar.
 - (CGFloat)menuBarHeight
 {
   return 32;
 }
 
+// Returns the height of menu items.
 - (CGFloat)menuItemHeight
 {
   return 28;
 }
 
+// Returns the height of the menu separator.
 - (CGFloat)menuSeparatorHeight
 {
   return 1;
 }
 
+// Draws a rounded window with specified rect and radius.
 - (void)drawRoundedWindow:(NSRect)rect radius:(CGFloat)radius {
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:radius yRadius:radius];
     [path fill];
 }
 
+// Draws the window border.
 - (void)drawWindowBorder:(NSRect)rect
          withFrame:(NSRect)frame
       forStyleMask:(unsigned int)styleMask
@@ -154,6 +173,7 @@
   rect.size.width = rect.size.width + 16;
   rect.origin.x += 8; 
 
+  // Drawing code commented out, adjust as needed for specific window styles
   /*
   if (styleMask & (NSTitledWindowMask | NSClosableWindowMask 
                    | NSMiniaturizableWindowMask))
@@ -241,6 +261,7 @@
 }
 */
 
+// Provides the standard window button for a given button type.
 - (NSButton *) standardWindowButton: (NSWindowButton)button
 		       forStyleMask: (NSUInteger) mask
 {
@@ -253,6 +274,7 @@
   [newButton setBordered: NO];
   [newButton setTag: button];
   
+  // Configure button images and actions based on button type
   switch (button)
     {
       case NSWindowCloseButton:
@@ -268,25 +290,26 @@
         break;
 
       case NSWindowZoomButton:
-        // FIXME
+        // FIXME: Configure zoom button
         [newButton setImage: [NSImage imageNamed: @"common_Maximize"]];
         [newButton setAlternateImage: [NSImage imageNamed: @"common_MaximizeH"]];
         [newButton setAction: @selector(zoom:)];
         break;
 
       case NSWindowToolbarButton:
-        // FIXME
+        // FIXME: Configure toolbar button
         [newButton setAction: @selector(toggleToolbarShown:)];
         break;
       case NSWindowDocumentIconButton:
       default:
-        // FIXME
+        // FIXME: Configure document icon button
         break;
     }
 
   return AUTORELEASE(newButton);
 }
 
+// Returns the frame for the close button within the window's bounds.
 - (NSRect)closeButtonFrameForBounds:(NSRect)rect
 {
 
@@ -306,6 +329,7 @@
   return newRect;
 }
 
+// Returns the frame for the miniaturize button within the window's bounds.
 - (NSRect)miniaturizeButtonFrameForBounds:(NSRect)rect
 {
 
@@ -321,6 +345,7 @@
   return newRect;
 }
 
+// Draws the title bar rectangle with the provided style mask, state, and title.
 static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
 // HINT: Check out line 1803 on the following source page...
 // https://github.com/gnustep/libs-gui/blob/master/Source/GSThemeDrawing.m
@@ -330,6 +355,7 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
                 andTitle:(NSString *)title
 {
 
+  // Initialize title text attributes if not already done
   static const NSRectEdge edges[4] = {NSMinXEdge, NSMaxYEdge, NSMaxXEdge,
                                       NSMinYEdge};
   CGFloat grays[3][4] = {{NSLightGray, NSLightGray, NSDarkGray, NSDarkGray},
