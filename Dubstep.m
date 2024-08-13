@@ -446,22 +446,25 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
   
 }
 
-
-
-
-
+// Draw the menu background and item cells
 - (void)drawMenuRect:(NSRect)rect
               inView:(NSView *)view
         isHorizontal:(BOOL)horizontal
            itemCells:(NSArray *)itemCells
 {
+  // Initialize variables for menu item drawing
   int i = 0;
   int howMany = [itemCells count];
   NSMenuView *menuView = (NSMenuView *)view;
   NSRect bounds = [view bounds];
 
-  NSRect r = NSIntersectionRect(bounds, rect); 
+  // Calculate the intersection of the view's bounds and the drawing rectangle
+  NSRect r = NSIntersectionRect(bounds, rect);
+
+  // Clear the existing menu background in the drawing rectangle
   NSRectFillUsingOperation(bounds, NSCompositeClear);
+
+  // Create path and color for the menu border
   NSBezierPath *menuPath;
   NSColor *borderColor = [self menuBorderColor];
   [borderColor setStroke];
@@ -541,15 +544,16 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
   */
 }
 
-
+// Draw the border and background for a menu item cell
 - (void)drawBorderAndBackgroundForMenuItemCell:(NSMenuItemCell *)cell
                                      withFrame:(NSRect)cellFrame
                                         inView:(NSView *)controlView
                                          state:(GSThemeControlState)state
                                   isHorizontal:(BOOL)isHorizontal
 {
-
+  // Define the background colors and gradient for the menu item
   NSColor *backgroundColor = [self menuItemBackgroundColor];
+  // Colors for the gradient background when the item is selected or highlighted
   NSColor *selectedBackgroundColor1 = [NSColor colorWithCalibratedRed:0.392
                                                                 green:0.533
                                                                  blue:0.953
@@ -558,12 +562,15 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
                                                                 green:0.373
                                                                  blue:0.929
                                                                 alpha:1.0];
-
   NSColor *menuItemBackground = [self menuItemBackgroundColor];
+
+  // Create a gradient for the selected/highlighted state
   NSGradient *menuitemgradient =
       [[NSGradient alloc] initWithStartingColor:selectedBackgroundColor1
                                     endingColor:selectedBackgroundColor2];
   NSColor *c;
+
+  // Prepare the cell for drawing
   [cell setBordered:NO];
   cellFrame = [cell drawingRectForBounds:cellFrame];
 
@@ -580,15 +587,20 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
     // EXPERIMENTAL PADDING END
   }
 
+  // Check if the menu item is in a selected or highlighted state
   if (state == GSThemeSelectedState || state == GSThemeHighlightedState) {
-
+    // Clear the background of the menu item to make way for the gradient
     NSRectFillUsingOperation(cellFrame, NSCompositeClear);
+    // Draw a gradient background for selected/highlighted states
     [menuitemgradient drawInRect:cellFrame angle:-90];
     return;
   } else {
+    // If the menu item is not selected or highlighted
     if (isHorizontal) {
+      // For horizontal menus, do not draw any background
       return;
     } else {
+      // Set the background color for non-selected/non-highlighted items
       c = menuItemBackground;
     }
   }
