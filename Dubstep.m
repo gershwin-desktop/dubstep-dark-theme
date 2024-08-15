@@ -29,7 +29,7 @@
 }
 
 // Returns the background color for the status bar.
-- (NSColor *)statusBarBackgroundColor\
+- (NSColor *)statusBarBackgroundColor
 {
   return [NSColor blackColor]; 
 }
@@ -39,12 +39,11 @@
 {
    return 16.0;
 }
-// END Custom Props
 
 // Determines whether menu icons should be shown.
 - (BOOL)menuShouldShowIcon
 {
-  return false;
+  return NO;
 }
 
 // Returns the inset for menu separators.
@@ -65,7 +64,7 @@
   return [self statusBarBackgroundColor];
 }
 
-- (NSColor*)menuBorderColor
+- (NSColor *)menuBorderColor
 {
   NSArray *rgba = @[@68.0,@68.0,@68.0,@1.0];
   return [self rgbaToColor:rgba];
@@ -120,7 +119,7 @@
 }
 
 // Returns the height of the resize bar.
-- (float) resizebarHeight
+- (float)resizebarHeight
 {
   return 12.0f;
 }
@@ -162,11 +161,7 @@
              state:(int)inputState
           andTitle:(NSString *)title
 {
-  // Color the window frame 
-  NSColor *color; 
-  color = [self defaultBackgroundColor]; 
-  // [color set];
-  // NSRectFill(rect);
+  NSColor *color = [self defaultBackgroundColor]; 
   [color setFill];
   [self drawRoundedWindow:rect radius:14.0];
 
@@ -175,43 +170,41 @@
 }
 
 // Provides the standard window button for a given button type.
-- (NSButton *) standardWindowButton: (NSWindowButton)button
-		       forStyleMask: (NSUInteger) mask
+- (NSButton *)standardWindowButton:(NSWindowButton)button
+                       forStyleMask:(NSUInteger)mask
 {
-  NSButton *newButton;
-
-  newButton = [[NSButton alloc] init];
-  [newButton setRefusesFirstResponder: YES];
-  [newButton setButtonType: NSMomentaryChangeButton];
-  [newButton setImagePosition: NSImageOnly];
-  [newButton setBordered: NO];
-  [newButton setTag: button];
+  NSButton *newButton = [[NSButton alloc] init];
+  [newButton setRefusesFirstResponder:YES];
+  [newButton setButtonType:NSMomentaryChangeButton];
+  [newButton setImagePosition:NSImageOnly];
+  [newButton setBordered:NO];
+  [newButton setTag:button];
   
   // Configure button images and actions based on button type
   switch (button)
     {
       case NSWindowCloseButton:
-        [newButton setImage: [NSImage imageNamed: @"common_Close"]];
-        [newButton setAlternateImage: [NSImage imageNamed: @"common_CloseH"]];
-        [newButton setAction: @selector(performClose:)];
+        [newButton setImage:[NSImage imageNamed:@"common_Close"]];
+        [newButton setAlternateImage:[NSImage imageNamed:@"common_CloseH"]];
+        [newButton setAction:@selector(performClose:)];
         break;
 
       case NSWindowMiniaturizeButton:
-        [newButton setImage: [NSImage imageNamed: @"common_Miniaturize"]];
-        [newButton setAlternateImage: [NSImage imageNamed: @"common_MiniaturizeH"]];
-        [newButton setAction: @selector(miniaturize:)];
+        [newButton setImage:[NSImage imageNamed:@"common_Miniaturize"]];
+        [newButton setAlternateImage:[NSImage imageNamed:@"common_MiniaturizeH"]];
+        [newButton setAction:@selector(miniaturize:)];
         break;
 
       case NSWindowZoomButton:
         // FIXME: Configure zoom button
-        [newButton setImage: [NSImage imageNamed: @"common_Maximize"]];
-        [newButton setAlternateImage: [NSImage imageNamed: @"common_MaximizeH"]];
-        [newButton setAction: @selector(zoom:)];
+        [newButton setImage:[NSImage imageNamed:@"common_Maximize"]];
+        [newButton setAlternateImage:[NSImage imageNamed:@"common_MaximizeH"]];
+        [newButton setAction:@selector(zoom:)];
         break;
 
       case NSWindowToolbarButton:
         // FIXME: Configure toolbar button
-        [newButton setAction: @selector(toggleToolbarShown:)];
+        [newButton setAction:@selector(toggleToolbarShown:)];
         break;
       case NSWindowDocumentIconButton:
       default:
@@ -219,13 +212,13 @@
         break;
     }
 
-  return AUTORELEASE(newButton);
+  return newButton;
 }
 
+// Draws a path button with specified state.
 - (void)drawPathButton:(NSBezierPath *)path
                     in:(NSView *)view
                  state:(GSThemeControlState)state {
-    // Example implementation - customize as needed
     [[NSColor blackColor] setStroke];
     [path stroke];
 }
@@ -233,7 +226,6 @@
 // Returns the frame for the close button within the window's bounds.
 - (NSRect)closeButtonFrameForBounds:(NSRect)rect
 {
-
   NSRect newRect = NSMakeRect(rect.size.width - [self titlebarButtonSize] - [self titlebarPaddingRight],
                             rect.size.height - [self titlebarButtonSize] - [self windowButtonPadding],
                             [self titlebarButtonSize],
@@ -251,14 +243,11 @@
 // Returns the frame for the miniaturize button within the window's bounds.
 - (NSRect)miniaturizeButtonFrameForBounds:(NSRect)rect
 {
-
-  GSTheme *theme = [GSTheme theme];
-
   NSRect newRect = NSMakeRect(rect.size.width - [self titlebarButtonSize] - [self titlebarPaddingRight],
                               rect.size.height - [self titlebarButtonSize] - [self windowButtonPadding],
                               [self titlebarButtonSize],
                               [self titlebarButtonSize]);
-  newRect.origin.x = [self titlebarPaddingLeft] + [theme titlebarButtonSize] + 8;
+  newRect.origin.x = [self titlebarPaddingLeft] + [self titlebarButtonSize] + 8;
   newRect.origin.y -= [self windowButtonPadding];
 
   return newRect;
@@ -332,14 +321,12 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
     }
 }
 
-
 // Draw the menu background and item cells
 - (void)drawMenuRect:(NSRect)rect
               inView:(NSView *)view
         isHorizontal:(BOOL)horizontal
            itemCells:(NSArray *)itemCells
 {
-    // Initialize variables for menu item drawing
     NSMenuView *menuView = (NSMenuView *)view;
     NSRect bounds = [view bounds];
     
@@ -390,6 +377,7 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
     }
 }
 
+// Draw the background for menu view
 - (void)drawBackgroundForMenuView:(NSMenuView *)menuView
                         withFrame:(NSRect)bounds
                         dirtyRect:(NSRect)dirtyRect
@@ -399,7 +387,6 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
     // You can implement custom background drawing here if needed.
 }
 
-
 // Draw the border and background for a menu item cell
 - (void)drawBorderAndBackgroundForMenuItemCell:(NSMenuItemCell *)cell
                                      withFrame:(NSRect)cellFrame
@@ -407,10 +394,8 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
                                          state:(GSThemeControlState)state
                                   isHorizontal:(BOOL)isHorizontal
 {
-    // Define the background color for the menu item
     NSColor *menuItemBackground = [self menuItemBackgroundColor];
     
-    // Colors for the gradient background when the item is selected or highlighted
     NSColor *selectedBackgroundColor1 = [NSColor colorWithCalibratedRed:0.392
                                                                   green:0.533
                                                                    blue:0.953
@@ -420,12 +405,10 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
                                                                    blue:0.929
                                                                   alpha:1.0];
 
-    // Create a gradient for the selected/highlighted state
     NSGradient *menuItemGradient =
         [[NSGradient alloc] initWithStartingColor:selectedBackgroundColor1
                                       endingColor:selectedBackgroundColor2];
     
-    // Prepare the cell for drawing
     [cell setBordered:NO];
     cellFrame = [cell drawingRectForBounds:cellFrame];
 
@@ -433,23 +416,16 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
         cellFrame.origin.y = 1;
     }
 
-    // Check if the menu item is in a selected or highlighted state
     if (state == GSThemeSelectedState || state == GSThemeHighlightedState) {
-        // Clear the background of the menu item to make way for the gradient
         NSRectFillUsingOperation(cellFrame, NSCompositeClear);
-        
-        // Draw a gradient background for selected/highlighted states
         [menuItemGradient drawInRect:cellFrame angle:-90];
         return;
     } else if (!isHorizontal) {
-        // Set the background color for non-selected/non-highlighted items in vertical menus
         [menuItemBackground setFill];
     } else {
-        // For horizontal menus, do not draw any background
         return;
     }
 
-    // Draw the background color
     NSRectFillUsingOperation(cellFrame, NSCompositeClear);
     NSRectFill(cellFrame);
 }
