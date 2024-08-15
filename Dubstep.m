@@ -1,7 +1,7 @@
 #import "GNUstepGUI/GSWindowDecorationView.h"
 #import "Dubstep.h"
 #import "Dubstep+Button.h"
-#import <AppKit/AppKit.h>#
+#import <AppKit/AppKit.h>
 
 @implementation Dubstep
 
@@ -336,7 +336,6 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
     // Initialize variables for menu item drawing
     NSMenuView *menuView = (NSMenuView *)view;
     NSRect bounds = [view bounds];
-    NSRect intersectionRect = NSIntersectionRect(bounds, rect);
     
     // Clear the existing menu background in the drawing rectangle
     NSRectFillUsingOperation(bounds, NSCompositeClear);
