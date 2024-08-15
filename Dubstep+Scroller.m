@@ -90,7 +90,6 @@
 
 - (NSCell*) cellForScrollerKnobSlot: (BOOL)horizontal
 {
-  GSDrawTiles   		*tiles;
   DubstepScrollerKnobSlotCell	*cell;
   NSColor			*color;
   NSString      		*name;
@@ -104,7 +103,6 @@
       name = GSScrollerVerticalSlot;
     }
 
-  tiles = [self tilesNamed: name state: GSThemeNormalState];
   color = [self colorNamed: name state: GSThemeNormalState];
 
   cell = [DubstepScrollerKnobSlotCell new];
