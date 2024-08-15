@@ -226,12 +226,10 @@
 - (NSRect)closeButtonFrameForBounds:(NSRect)rect
 {
 
-  GSTheme *theme = [GSTheme theme];
-
-  NSRect newRect = NSMakeRect(rect.size.width - [theme titlebarButtonSize] - [theme titlebarPaddingRight],
-                              rect.size.height - [theme titlebarButtonSize] -[theme windowButtonPadding],
-                              [theme titlebarButtonSize],
-                              [theme titlebarButtonSize]);
+  NSRect newRect = NSMakeRect(rect.size.width - [self titlebarButtonSize] - [self titlebarPaddingRight],
+                            rect.size.height - [self titlebarButtonSize] - [self windowButtonPadding],
+                            [self titlebarButtonSize],
+                            [self titlebarButtonSize]);
   newRect.origin.x = [self titlebarPaddingLeft];
   newRect.origin.y -= [self windowButtonPadding];
 
@@ -248,10 +246,10 @@
 
   GSTheme *theme = [GSTheme theme];
 
-  NSRect newRect = NSMakeRect(rect.size.width - [theme titlebarButtonSize] - [theme titlebarPaddingRight],
-                              rect.size.height - [theme titlebarButtonSize] - [theme windowButtonPadding],
-                              [theme titlebarButtonSize],
-                              [theme titlebarButtonSize]);
+  NSRect newRect = NSMakeRect(rect.size.width - [self titlebarButtonSize] - [self titlebarPaddingRight],
+                              rect.size.height - [self titlebarButtonSize] - [self windowButtonPadding],
+                              [self titlebarButtonSize],
+                              [self titlebarButtonSize]);
   newRect.origin.x = [self titlebarPaddingLeft] + [theme titlebarButtonSize] + 8;
   newRect.origin.y -= [self windowButtonPadding];
 
