@@ -9,13 +9,11 @@
 {
   scroller_arrow_type = t;
 }
-- (void) drawBezelWithFrame: (NSRect)cellFrame inView: (NSView *)controlView
-{
-  GSThemeControlState buttonState = [self themeControlState];
-  NSBezierPath * path = [self pathForFrame: cellFrame];
-  [(Dubstep*)[GSTheme theme] drawPathButton: path
-					in: self
-				     state: buttonState];
+- (void)drawBezelWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+    GSThemeControlState buttonState = [self themeControlState];
+    NSBezierPath *path = [self pathForFrame:cellFrame];
+    Dubstep *theme = (Dubstep *)[GSTheme theme];
+    [theme drawPathButton:path in:controlView state:buttonState];
 }
   
 - (NSBezierPath*) pathForFrame: (NSRect)cellFrame

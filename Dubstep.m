@@ -222,6 +222,14 @@
   return AUTORELEASE(newButton);
 }
 
+- (void)drawPathButton:(NSBezierPath *)path
+                    in:(NSView *)view
+                 state:(GSThemeControlState)state {
+    // Example implementation - customize as needed
+    [[NSColor blackColor] setStroke];
+    [path stroke];
+}
+
 // Returns the frame for the close button within the window's bounds.
 - (NSRect)closeButtonFrameForBounds:(NSRect)rect
 {
