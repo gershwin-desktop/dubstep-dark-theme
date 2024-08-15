@@ -347,104 +347,72 @@
 
 // Draws the title bar rectangle with the provided style mask, state, and title.
 static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
-// HINT: Check out line 1803 on the following source page...
-// https://github.com/gnustep/libs-gui/blob/master/Source/GSThemeDrawing.m
+
 - (void)drawTitleBarRect:(NSRect)titleBarRect
             forStyleMask:(unsigned int)styleMask
                    state:(int)inputState
                 andTitle:(NSString *)title
 {
+    // Initialize title text attributes if not already done
+    if (!titleTextAttributes[0]) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [paragraphStyle setLineBreakMode:NSLineBreakByClipping];
 
-  // Initialize title text attributes if not already done
-  static const NSRectEdge edges[4] = {NSMinXEdge, NSMaxYEdge, NSMaxXEdge,
-                                      NSMinYEdge};
-  CGFloat grays[3][4] = {{NSLightGray, NSLightGray, NSDarkGray, NSDarkGray},
-                         {NSWhite, NSWhite, NSDarkGray, NSDarkGray},
-                         {NSLightGray, NSLightGray, NSBlack, NSBlack}};
+        NSColor *keyColor = [self colorNamed:@"keyWindowFrameTextColor" state:GSThemeNormalState] ?: [NSColor windowFrameTextColor];
+        NSColor *normalColor = [self colorNamed:@"normalWindowFrameTextColor" state:GSThemeNormalState] ?: [NSColor redColor];
+        NSColor *mainColor = [self colorNamed:@"mainWindowFrameTextColor" state:GSThemeNormalState] ?: [NSColor windowFrameTextColor];
 
-  if (!titleTextAttributes[0]) {
-    NSMutableParagraphStyle *p;
-    NSColor *keyColor, *normalColor, *mainColor;
+        titleTextAttributes[0] = @{
+            NSFontAttributeName: [NSFont titleBarFontOfSize:0],
+            NSForegroundColorAttributeName: keyColor,
+            NSParagraphStyleAttributeName: paragraphStyle
+        };
 
-    p = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [p setLineBreakMode:NSLineBreakByClipping];
+        titleTextAttributes[1] = @{
+            NSFontAttributeName: [NSFont titleBarFontOfSize:0],
+            NSForegroundColorAttributeName: normalColor,
+            NSParagraphStyleAttributeName: paragraphStyle
+        };
 
-    // FIXME: refine color names based on style mask
-    // (HUD or textured or regular window)
-    
+        titleTextAttributes[2] = @{
+            NSFontAttributeName: [NSFont titleBarFontOfSize:0],
+            NSForegroundColorAttributeName: mainColor,
+            NSParagraphStyleAttributeName: paragraphStyle
+        };
 
-    keyColor = [self colorNamed:@"keyWindowFrameTextColor"
-                          state:GSThemeNormalState];
-    if (nil == keyColor) {
-      keyColor = [NSColor windowFrameTextColor];
+        RELEASE(paragraphStyle);
     }
 
-    normalColor = [self colorNamed:@"normalWindowFrameTextColor"
-                             state:GSThemeNormalState];
-    if (nil == normalColor) {
-      normalColor = [NSColor redColor];
+    // Draw the title if the window has a title bar
+    if (styleMask & NSTitledWindowMask) {
+        if (styleMask & NSMiniaturizableWindowMask) {
+            titleBarRect.origin.x += 18;
+            titleBarRect.size.width -= 18;
+        }
+        if (styleMask & NSClosableWindowMask) {
+            titleBarRect.size.width -= 18;
+        }
+
+        titleBarRect.size.height = [self titlebarHeight] + ([self titlebarPaddingTop] * 2);
+
+        NSSize titleSize = [title sizeWithAttributes:titleTextAttributes[inputState]];
+        if (titleSize.width <= titleBarRect.size.width) {
+            // Center the title horizontally and vertically
+            titleBarRect.origin.x = NSMidX(titleBarRect) - titleSize.width / 2;
+            titleBarRect.origin.y = NSMidY(titleBarRect) - titleSize.height / 2;
+            titleBarRect.size.height = titleSize.height;
+        }
+
+        // Fill the title bar background
+        NSColor *backgroundColor = [self defaultBackgroundColor];
+        [backgroundColor set];
+        NSRectFill(titleBarRect);
+
+        // Draw the title
+        [title drawInRect:titleBarRect withAttributes:titleTextAttributes[inputState]];
     }
-
-    mainColor = [self colorNamed:@"mainWindowFrameTextColor"
-                           state:GSThemeNormalState];
-    
-    if (nil == mainColor) {
-      mainColor = [NSColor windowFrameTextColor];
-    }
-
-    titleTextAttributes[0] = [[NSMutableDictionary alloc]
-        initWithObjectsAndKeys:[NSFont titleBarFontOfSize:0],
-                               NSFontAttributeName, keyColor,
-                               NSForegroundColorAttributeName, p,
-                               NSParagraphStyleAttributeName, nil];
-
-    titleTextAttributes[1] = [[NSMutableDictionary alloc]
-        initWithObjectsAndKeys:[NSFont titleBarFontOfSize:0],
-                               NSFontAttributeName, normalColor,
-                               NSForegroundColorAttributeName, p,
-                               NSParagraphStyleAttributeName, nil];
-
-    titleTextAttributes[2] = [[NSMutableDictionary alloc]
-        initWithObjectsAndKeys:[NSFont titleBarFontOfSize:0],
-                               NSFontAttributeName, mainColor,
-                               NSForegroundColorAttributeName, p,
-                               NSParagraphStyleAttributeName, nil];
-
-    RELEASE(p);
-  } 
-    
-  // Draw the title
-  if (styleMask & NSTitledWindowMask) {
-    NSSize titleSize;
-
-    if (styleMask & NSMiniaturizableWindowMask) {
-      titleBarRect.origin.x += 18;
-      titleBarRect.size.width -= 18;
-    }
-    if (styleMask & NSClosableWindowMask) {
-      titleBarRect.size.width -= 18;
-    }
-    titleBarRect.size.height = [self titlebarHeight] + ([self titlebarPaddingTop] * 2);
-    
-
-    titleSize = [title sizeWithAttributes:titleTextAttributes[inputState]];
-    //titleBarRect.size.height = [self titlebarHeight] + [self titlebarPaddingTop];
-    if (titleSize.width <= titleBarRect.size.width){      
-      // Uses only as much space as the string needs
-      titleBarRect.size.height = titleSize.height; // + [self titlebarPaddingTop];
-      titleBarRect.origin.x = NSMidX(titleBarRect) - titleSize.width / 2;
-      titleBarRect.origin.y = NSMidY(titleBarRect) - titleSize.height / 2;      
-    }
-    // Add a fill to the titlebar NSRect
-    NSColor *c; 
-    c = [self defaultBackgroundColor];    
-    [c set]; 
-    NSRectFill(titleBarRect);
-     
-    [title drawInRect: titleBarRect withAttributes: titleTextAttributes[inputState]];
-  }
-  
 }
+
 
 // Draw the menu background and item cells
 - (void)drawMenuRect:(NSRect)rect
