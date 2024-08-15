@@ -6,8 +6,5 @@
 {  
   NSUserDefaults *defaults;
 }
-- (void) drawPathButton: (NSBezierPath*) path
-                     in: (NSCell*)cell
-                  state: (GSThemeControlState) state;
 @end
 
