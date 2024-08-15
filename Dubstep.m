@@ -452,97 +452,67 @@ static NSDictionary *titleTextAttributes[3] = {nil, nil, nil};
         isHorizontal:(BOOL)horizontal
            itemCells:(NSArray *)itemCells
 {
-  // Initialize variables for menu item drawing
-  int i = 0;
-  int howMany = [itemCells count];
-  NSMenuView *menuView = (NSMenuView *)view;
-  NSRect bounds = [view bounds];
-
-  // Calculate the intersection of the view's bounds and the drawing rectangle
-  NSRect r = NSIntersectionRect(bounds, rect);
-
-  // Clear the existing menu background in the drawing rectangle
-  NSRectFillUsingOperation(bounds, NSCompositeClear);
-
-  // Create path and color for the menu border
-  NSBezierPath *menuPath;
-  NSColor *borderColor = [self menuBorderColor];
-  [borderColor setStroke];
-
-  // EXPERIMENTAL PADDING
-  CGFloat padding = [self menuPadding];
-
-  if (horizontal == YES) {
-    // This is for the horizontal menu bar up top
-
-    // Compensate for padding in the x-axis
-    // bounds.origin.x += padding;
-    // bounds.size.width -= 2 * padding;
-
-    // here the semitrasparent status bar...
-    menuPath = [NSBezierPath bezierPathWithRect:bounds];
-    NSColor *fillColor = [self menuBackgroundColor];
-    [fillColor setFill];
-    NSRectFill(bounds);
-    NSBezierPath *linePath = [NSBezierPath bezierPath];
-    [linePath moveToPoint:NSMakePoint(bounds.origin.x, bounds.origin.y)];
-    [linePath lineToPoint:NSMakePoint(bounds.origin.x + bounds.size.width,
-                                      bounds.origin.y)];
-    [linePath setLineWidth:1];
-    [linePath stroke];
-  } else {
-    // here the vertical menus
-    CGFloat radius = 6;
-    menuPath = [NSBezierPath bezierPathWithRoundedRect:bounds
-                                               xRadius:radius
-                                               yRadius:radius];
-
-    //[[self menuBackgroundColor] setFill];
-    //[menuPath fill];
-
-    NSBezierPath *strokemenuPath =
-        [NSBezierPath bezierPathWithRoundedRect:bounds
-                                        xRadius:radius
-                                        yRadius:radius];
-    [strokemenuPath stroke];
-  }
-  // Draw the menu cells.
-  for (i = 0; i < howMany; i++) {
-    NSRect aRect;
-    NSMenuItemCell *aCell;
-    aRect = [menuView rectOfItemAtIndex:i];
-    if (NSIntersectsRect(rect, aRect) == YES) {
-      // Compensate for padding in the x-axis
-      // aRect.origin.x += padding;
-      // aRect.size.width -= 2 * padding;
-      aCell = [menuView menuItemCellForItemAtIndex:i];
-      [aCell drawWithFrame:aRect inView:menuView];
+    // Initialize variables for menu item drawing
+    NSMenuView *menuView = (NSMenuView *)view;
+    NSRect bounds = [view bounds];
+    NSRect intersectionRect = NSIntersectionRect(bounds, rect);
+    
+    // Clear the existing menu background in the drawing rectangle
+    NSRectFillUsingOperation(bounds, NSCompositeClear);
+    
+    // Set the border color
+    NSColor *borderColor = [self menuBorderColor];
+    [borderColor setStroke];
+    
+    // Create a path for the menu border
+    NSBezierPath *menuPath;
+    
+    if (horizontal) {
+        // Horizontal menu bar
+        menuPath = [NSBezierPath bezierPathWithRect:bounds];
+        
+        // Fill background color
+        NSColor *fillColor = [self menuBackgroundColor];
+        [fillColor setFill];
+        NSRectFill(bounds);
+        
+        // Draw the top border line
+        NSBezierPath *linePath = [NSBezierPath bezierPath];
+        [linePath moveToPoint:NSMakePoint(bounds.origin.x, bounds.origin.y)];
+        [linePath lineToPoint:NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y)];
+        [linePath setLineWidth:1];
+        [linePath stroke];
+    } else {
+        // Vertical menus with rounded corners
+        CGFloat radius = 6.0;
+        menuPath = [NSBezierPath bezierPathWithRoundedRect:bounds
+                                                   xRadius:radius
+                                                   yRadius:radius];
+        
+        // Draw the menu border
+        [menuPath stroke];
     }
-  }
+    
+    // Draw the menu item cells
+    NSUInteger itemCount = itemCells.count;
+    for (NSUInteger i = 0; i < itemCount; i++) {
+        NSRect itemRect = [menuView rectOfItemAtIndex:i];
+        if (NSIntersectsRect(rect, itemRect)) {
+            NSMenuItemCell *itemCell = [menuView menuItemCellForItemAtIndex:i];
+            [itemCell drawWithFrame:itemRect inView:menuView];
+        }
+    }
 }
-
 
 - (void)drawBackgroundForMenuView:(NSMenuView *)menuView
                         withFrame:(NSRect)bounds
                         dirtyRect:(NSRect)dirtyRect
                        horizontal:(BOOL)horizontal
 {
-  // NSString *name = horizontal ? GSMenuHorizontalBackground : GSMenuVerticalBackground;
-
-  // NSRectEdge sides[4] = {NSMinXEdge, NSMaxYEdge, NSMaxXEdge, NSMinYEdge};
-
-  /*[[self menuBackgroundColor] setFill];
-
-  NSRect r = NSIntersectionRect(bounds, dirtyRect);
-  NSRectFillUsingOperation(r, NSCompositeClear);
-  NSBezierPath *roundedRectanglePath =
-      [NSBezierPath bezierPathWithRoundedRect:r xRadius:4 yRadius:4];
-  // NSColor *borderColor = [self menuBorderColor];
-  //[borderColor setStroke];
-  [roundedRectanglePath fill];
-  [roundedRectanglePath stroke]; 
-  */
+    // This method is currently not implemented. The original code was commented out.
+    // You can implement custom background drawing here if needed.
 }
+
 
 // Draw the border and background for a menu item cell
 - (void)drawBorderAndBackgroundForMenuItemCell:(NSMenuItemCell *)cell
