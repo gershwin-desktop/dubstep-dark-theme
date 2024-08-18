@@ -211,6 +211,8 @@
     NSColor *titleBarColor = color;
     [titleBarColor setFill];
     NSRect titleBarFrame = NSMakeRect(rect.origin.x, rect.origin.y + rect.size.height - 22, rect.size.width, 22);
+    // Adjust the y-origin to move the title bar up or down
+    titleBarFrame.origin.y -= 9;  // Increase this value to move the title bar down, decrease to move it up
     NSBezierPath *titleBarPath = [NSBezierPath bezierPathWithRect:titleBarFrame];
     [titleBarPath fill];
 
