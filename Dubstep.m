@@ -5,6 +5,30 @@
 
 @implementation Dubstep
 
+// Ensuring the title bar is drawn
+- (void)drawTitleBar:(NSRect)frame inView:(NSView *)view state:(GSThemeControlState)state {
+    // Set title bar color
+    NSColor *titleBarColor = [self defaultBackgroundColor]; // Match title bar color with window color
+    [titleBarColor setFill];
+    NSRectFill(frame);
+
+    // Optionally, add a line at the bottom of the title bar
+    NSColor *borderColor = [NSColor colorWithCalibratedWhite:0.3 alpha:1.0]; // Lighter gray
+    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+    [borderPath moveToPoint:NSMakePoint(NSMinX(frame), NSMinY(frame))];
+    [borderPath lineToPoint:NSMakePoint(NSMaxX(frame), NSMinY(frame))];
+    [borderColor setStroke];
+    [borderPath stroke];
+}
+
+// Overriding the method to draw window decorations
+- (void)drawWindowDecoration:(NSRect)rect inView:(NSView *)view {
+    // Draw the title bar
+    [self drawTitleBar:NSMakeRect(rect.origin.x, rect.origin.y + rect.size.height - 22, rect.size.width, 22)
+                inView:view
+                state:GSThemeNormalState];
+}
+
 // Initialize with bundle. Add setup code for theme if needed.
 - (void)initWithBundle
 {
@@ -12,7 +36,7 @@
 }
 
 // Converts RGBA values to NSColor.
-- (NSColor *)rgbaToColor: (NSArray<NSNumber *> *)rgba
+- (NSColor *)rgbaToColor:(NSArray<NSNumber *> *)rgba
 {
     CGFloat red = rgba[0].floatValue / 255;
     CGFloat green = rgba[1].floatValue / 255;
@@ -150,23 +174,55 @@
 
 // Draws a rounded window with specified rect and radius.
 - (void)drawRoundedWindow:(NSRect)rect radius:(CGFloat)radius {
-    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:radius yRadius:radius];
-    [path fill];
+    NSBezierPath *roundedRectPath = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:14.0 yRadius:14.0];
+    
+    // Clip to the rounded rectangle path
+    [roundedRectPath addClip];
+
+    // Fill the background with the rounded shape
+    [roundedRectPath fill];
 }
 
 // Draws the window border.
 - (void)drawWindowBorder:(NSRect)rect
-         withFrame:(NSRect)frame
-      forStyleMask:(unsigned int)styleMask
-             state:(int)inputState
-          andTitle:(NSString *)title
+               withFrame:(NSRect)frame
+            forStyleMask:(unsigned int)styleMask
+                   state:(int)inputState
+                andTitle:(NSString *)title
 {
-  NSColor *color = [self defaultBackgroundColor]; 
-  [color setFill];
-  [self drawRoundedWindow:rect radius:14.0];
+    NSColor *color = [self defaultBackgroundColor];
+    [color setFill];
 
-  rect.size.width = rect.size.width + 16;
-  rect.origin.x += 8; 
+    // Create a path for a rounded rectangle
+    NSBezierPath *roundedRectPath = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:14.0 yRadius:14.0];
+    
+    // Clip to the rounded rectangle path
+    [roundedRectPath addClip];
+
+    // Fill the background with the rounded shape
+    [roundedRectPath fill];
+
+    // Make the border invisible by setting the stroke color to clear
+    [[NSColor clearColor] setStroke];
+    [roundedRectPath setLineWidth:0.0];
+    [roundedRectPath stroke];
+
+    // Set the title bar color to match the window background color
+    NSColor *titleBarColor = color;
+    [titleBarColor setFill];
+    NSRect titleBarFrame = NSMakeRect(rect.origin.x, rect.origin.y + rect.size.height - 22, rect.size.width, 22);
+    NSBezierPath *titleBarPath = [NSBezierPath bezierPathWithRect:titleBarFrame];
+    [titleBarPath fill];
+
+    // Draw the application title in the title bar
+    NSDictionary *attributes = @{ NSFontAttributeName: [NSFont systemFontOfSize:14],
+                                  NSForegroundColorAttributeName: [NSColor whiteColor] };
+    NSSize textSize = [title sizeWithAttributes:attributes];
+    NSPoint textOrigin = NSMakePoint(NSMidX(titleBarFrame) - textSize.width / 2,
+                                     NSMidY(titleBarFrame) - textSize.height / 2);
+    [title drawAtPoint:textOrigin withAttributes:attributes];
+
+    NSLog(@"Title drawn: %@", title);
 }
 
 // Provides the standard window button for a given button type.
