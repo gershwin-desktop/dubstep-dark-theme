@@ -224,7 +224,7 @@
                                      NSMidY(titleBarFrame) - textSize.height / 2);
     [title drawAtPoint:textOrigin withAttributes:attributes];
 
-    NSLog(@"Title drawn: %@", title);
+    NSDebugLog(@"Title drawn: %@", title);
 }
 
 // Provides the standard window button for a given button type.
