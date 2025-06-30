@@ -1,7 +1,7 @@
 include $(GNUSTEP_MAKEFILES)/common.make
 
-PACKAGE_NAME = DubstepDark
-BUNDLE_NAME = DubstepDark
+PACKAGE_NAME = Dubstep
+BUNDLE_NAME = Dubstep
 BUNDLE_EXTENSION = .theme
 VERSION = 0.1
 
